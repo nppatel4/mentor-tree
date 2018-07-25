@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Component
-@FeignClient(name = "${feign.employee-client.name}", url = "${feign.employee-client.url}")
+@FeignClient(name = "${feign.employee-client.name}")
 public interface EmployeeClient {
 
     @RequestMapping(method = RequestMethod.GET, value = "/employees/{id}")
