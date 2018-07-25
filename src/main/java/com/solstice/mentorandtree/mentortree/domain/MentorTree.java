@@ -9,7 +9,8 @@ import javax.persistence.Id;
 @Entity
 public class MentorTree {
 
-    @Id private Long employeeId;
+    @Id
+    private Long employeeId;
     private Long mentorId;
     private Long treeLeadId;
 

@@ -1,0 +1,7 @@
+server:
+  port: 8081
+
+feign:
+  employee-client:
+    name: employees
+    url: http://localhost:8080/

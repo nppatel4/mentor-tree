@@ -1,11 +1,10 @@
-package com.solstice.mentorandtree.mentortree;
+package com.solstice.mentorandtree.mentortree.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 public class Employee {
+
     private Long id;
     private String firstName;
     private String lastName;
@@ -14,4 +13,5 @@ public class Employee {
     private String title;
     private String email;
     private String imageUrl;
+
 }
