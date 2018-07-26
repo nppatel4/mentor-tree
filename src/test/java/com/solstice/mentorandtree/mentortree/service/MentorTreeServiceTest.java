@@ -22,11 +22,10 @@ import static org.mockito.Mockito.when;
 public class MentorTreeServiceTest {
     @Mock
     MentorTreeRepository mentorTreeRepository;
-    @InjectMocks
-    MentorTreeService mentorTreeService;
     @Mock
     EmployeeClient employeeClient;
-
+    @InjectMocks
+    MentorTreeService mentorTreeService;
 
     @Test
     public void testDeleteMentorTree() {
@@ -47,13 +46,10 @@ public class MentorTreeServiceTest {
         mentorTrees.add(new MentorTree(1L, 2L, 3L));
         mentorTrees.add(new MentorTree(3L, 2L, 3L));
         mentorTrees.add(new MentorTree(4L, 1L, 3L));
-        Employee employee1 = new Employee();
-        Employee employee3 = new Employee();
-        Employee employee4 = new Employee();
-        employee1.setEmployeeId(1L);
-        employee3.setEmployeeId(3L);
-        employee4.setEmployeeId(4L);
 
+        Employee employee1 = new Employee(1L);
+        Employee employee3 = new Employee(3L);
+        Employee employee4 = new Employee(4L);
 
         when(mentorTreeRepository.findByTreeLeadId(3L)).thenReturn(mentorTrees);
         when(employeeClient.getEmployeeById(1L)).thenReturn(employee1);
@@ -65,7 +61,6 @@ public class MentorTreeServiceTest {
         Assert.assertThat(employees.get(0).getId(), Matchers.is(1L));
         Assert.assertThat(employees.get(1).getId(), Matchers.is(3L));
         Assert.assertThat(employees.get(2).getId(), Matchers.is(4L));
-
     }
 
     @Test
@@ -74,13 +69,10 @@ public class MentorTreeServiceTest {
         mentorTrees.add(new MentorTree(1L, 2L, 3L));
         mentorTrees.add(new MentorTree(3L, 2L, 3L));
         mentorTrees.add(new MentorTree(4L, 2L, 3L));
-        Employee employee1 = new Employee();
-        Employee employee3 = new Employee();
-        Employee employee4 = new Employee();
-        employee1.setEmployeeId(1L);
-        employee3.setEmployeeId(3L);
-        employee4.setEmployeeId(4L);
 
+        Employee employee1 = new Employee(1L);
+        Employee employee3 = new Employee(3L);
+        Employee employee4 = new Employee(4L);
 
         when(mentorTreeRepository.findByMentorId(2L)).thenReturn(mentorTrees);
         when(employeeClient.getEmployeeById(1L)).thenReturn(employee1);
