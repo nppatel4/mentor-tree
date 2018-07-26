@@ -21,11 +21,13 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class MentorTreeServiceTest {
     @Mock
-    MentorTreeRepository mentorTreeRepository;
+    private MentorTreeRepository mentorTreeRepository;
+
     @Mock
-    EmployeeClient employeeClient;
+    private EmployeeClient employeeClient;
+
     @InjectMocks
-    MentorTreeService mentorTreeService;
+    private MentorTreeService mentorTreeService;
 
     @Test
     public void testDeleteMentorTree() {
