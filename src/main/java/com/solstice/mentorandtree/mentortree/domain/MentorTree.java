@@ -14,4 +14,10 @@ public class MentorTree {
     private Long mentorId;
     private Long treeLeadId;
 
+    public MentorTree(Long employeeId, Long mentorId, Long treeLeadId){
+        this.employeeId = employeeId;
+        this.mentorId = mentorId;
+        this.treeLeadId = treeLeadId;
+    }
+
 }
