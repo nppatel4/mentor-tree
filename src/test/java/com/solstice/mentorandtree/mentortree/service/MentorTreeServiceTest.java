@@ -1,8 +1,6 @@
 package com.solstice.mentorandtree.mentortree.service;
 
-import com.solstice.mentorandtree.mentortree.client.EmployeeClient;
 import com.solstice.mentorandtree.mentortree.domain.MentorTree;
-import com.solstice.mentorandtree.mentortree.model.Employee;
 import com.solstice.mentorandtree.mentortree.repository.MentorTreeRepository;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
@@ -23,23 +21,20 @@ public class MentorTreeServiceTest {
     @Mock
     private MentorTreeRepository mentorTreeRepository;
 
-    @Mock
-    private EmployeeClient employeeClient;
-
     @InjectMocks
     private MentorTreeService mentorTreeService;
 
     @Test
     public void testDeleteMentorTree() {
-        mentorTreeService.deleteMentorTree(1232L);
-        verify(mentorTreeRepository).deleteByEmployeeId(1232L);
+        mentorTreeService.deleteByEmployeeId(1232L);
+        verify(mentorTreeRepository).deleteById(1232L);
     }
 
     @Test
     public void testUpdateMentorTree() {
         MentorTree mentorTree = new MentorTree(1L, 2L, 3L);
-        mentorTreeService.updateMentorTree(mentorTree);
-        verify(mentorTreeRepository).setMentorTreeById(2L, 3L, 1L);
+        mentorTreeService.save(mentorTree);
+        verify(mentorTreeRepository).save(mentorTree);
     }
 
     @Test
@@ -49,20 +44,13 @@ public class MentorTreeServiceTest {
         mentorTrees.add(new MentorTree(3L, 2L, 3L));
         mentorTrees.add(new MentorTree(4L, 1L, 3L));
 
-        Employee employee1 = new Employee(1L);
-        Employee employee3 = new Employee(3L);
-        Employee employee4 = new Employee(4L);
-
         when(mentorTreeRepository.findByTreeLeadId(3L)).thenReturn(mentorTrees);
-        when(employeeClient.getEmployeeById(1L)).thenReturn(employee1);
-        when(employeeClient.getEmployeeById(3L)).thenReturn(employee3);
-        when(employeeClient.getEmployeeById(4L)).thenReturn(employee4);
 
-        List<Employee> employees = mentorTreeService.getEmployeeByTreeLead(3L);
+        List<MentorTree> result = mentorTreeService.findByTreeLeadId(3L);
 
-        Assert.assertThat(employees.get(0).getId(), Matchers.is(1L));
-        Assert.assertThat(employees.get(1).getId(), Matchers.is(3L));
-        Assert.assertThat(employees.get(2).getId(), Matchers.is(4L));
+        Assert.assertThat(result.get(0).getEmployeeId(), Matchers.is(1L));
+        Assert.assertThat(result.get(1).getEmployeeId(), Matchers.is(3L));
+        Assert.assertThat(result.get(2).getEmployeeId(), Matchers.is(4L));
     }
 
     @Test
@@ -72,20 +60,13 @@ public class MentorTreeServiceTest {
         mentorTrees.add(new MentorTree(3L, 2L, 3L));
         mentorTrees.add(new MentorTree(4L, 2L, 3L));
 
-        Employee employee1 = new Employee(1L);
-        Employee employee3 = new Employee(3L);
-        Employee employee4 = new Employee(4L);
-
         when(mentorTreeRepository.findByMentorId(2L)).thenReturn(mentorTrees);
-        when(employeeClient.getEmployeeById(1L)).thenReturn(employee1);
-        when(employeeClient.getEmployeeById(3L)).thenReturn(employee3);
-        when(employeeClient.getEmployeeById(4L)).thenReturn(employee4);
 
-        List<Employee> employees = mentorTreeService.getEmployeesByMentorId(2L);
+        List<MentorTree> result = mentorTreeService.findByMentorId(2L);
 
-        Assert.assertThat(employees.get(0).getId(), Matchers.is(1L));
-        Assert.assertThat(employees.get(1).getId(), Matchers.is(3L));
-        Assert.assertThat(employees.get(2).getId(), Matchers.is(4L));
+        Assert.assertThat(result.get(0).getEmployeeId(), Matchers.is(1L));
+        Assert.assertThat(result.get(1).getEmployeeId(), Matchers.is(3L));
+        Assert.assertThat(result.get(2).getEmployeeId(), Matchers.is(4L));
     }
 
 }
