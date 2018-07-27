@@ -1,7 +1,9 @@
 # mentor-tree
-This project depends on [employee-tree](https://github.com/nppatel4/employee-tree) to display employee information.
 
-## Eureka
+## Dependencies
+This project depends on [employee-tree](https://github.com/nppatel4/employee-tree) to display employee information. Mentor-tree only manages the relationships between employees. It does not manage any employee information.
+
+### Eureka
 [employee-tree](https://github.com/nppatel4/employee-tree) should be registered with Eureka as *employee-tree*.
 
 ## Build
