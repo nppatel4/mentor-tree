@@ -9,6 +9,14 @@ This project depends on [employee-tree](https://github.com/nppatel4/employee-tre
 ./gradlew clean assemble
 ```
 
+##Run Locally
+The `local` spring profile should be used when running locally. The gradle `bootRun` task has been configured to use the local profile by default.
+```bash
+./gradlew bootRun
+```
+###IntelliJ
+Include `local` in *Active profiles* field in the *Run Configuration* for the Spring Boot application.
+
 ## Deploy to PCF
 Store your CF username and password in environment variables:
 ```bash

@@ -50,6 +50,12 @@ dependencies {
     testCompile('javax.xml.bind:jaxb-api')
 }
 
+def profiles = 'local'
+
+bootRun {
+    args = ["--spring.profiles.active=" + profiles]
+}
+
 cfConfig {
     ccHost = "api.run.pivotal.io"
     org = "solstice-org"
