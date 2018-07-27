@@ -27,3 +27,6 @@ Use the CF gradle plugin to push:
 ```bash
 ./gradlew cf-push -Pcf.space=<your-space-name-here>
 ```
+
+## Swagger UI (API Docs)
+[swagger on localhost](http://localhost:8081/swagger-ui.html)
