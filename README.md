@@ -17,7 +17,7 @@ The `local` spring profile should be used when running locally. The gradle `boot
 ./gradlew bootRun
 ```
 ### IntelliJ
-Include `local` in *Active profiles* field in the *Run Configuration* for the Spring Boot application.
+Include `local` in the *Active profiles* field in the *Run Configuration* for the Spring Boot application.
 
 ## Deploy to PCF
 Store your CF username and password in environment variables:
