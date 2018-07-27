@@ -10,6 +10,10 @@ buildscript {
     }
 }
 
+plugins {
+    id "com.github.pivotalservices.cf-app" version "2.2.0"
+}
+
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
@@ -44,4 +48,18 @@ dependencies {
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('javax.xml.bind:jaxb-api')
+}
+
+cfConfig {
+    ccHost = "api.run.pivotal.io"
+    org = "solstice-org"
+
+    name = project.name
+    host = project.name
+    filePath = "build/libs/" + name + "-" + project.version + ".jar"
+    path = ""
+
+    buildpack = "https://github.com/cloudfoundry/java-buildpack.git"
+    environment = ["JAVA_OPTS": "-Djava.security.egd=file:/dev/./urandom", "SPRING_PROFILES_ACTIVE": "cloud"]
+    services  = ["service-registry"]
 }
