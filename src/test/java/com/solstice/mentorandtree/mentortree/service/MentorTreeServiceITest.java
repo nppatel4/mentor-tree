@@ -29,7 +29,7 @@ public class MentorTreeServiceITest {
     @Autowired
     private TestRestTemplate testRestTemplate;
 
-    /**
+    /*
      * This test requires the employee-tree service and eureka service to be running.
      */
     @Test
@@ -42,6 +42,22 @@ public class MentorTreeServiceITest {
 
         for (Employee employee : employees.getBody()) {
             assertThat(employee.getId(), anyOf(is(1L), is(3L)));
+        }
+    }
+
+    /*
+     * This test requires the employee-tree service and eureka service to be running.
+     */
+    @Test
+    public void testGetEmployeesByTreeLeadId() {
+        ResponseEntity<List<Employee>> employees = testRestTemplate.exchange(
+                ROOT_PATH + "/?tree-lead=1",
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<Employee>>() {});
+
+        for (Employee employee : employees.getBody()) {
+            assertThat(employee.getId(), anyOf(is(2L), is(3L)));
         }
     }
 
