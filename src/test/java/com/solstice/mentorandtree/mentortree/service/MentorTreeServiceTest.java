@@ -25,7 +25,7 @@ public class MentorTreeServiceTest {
     private MentorTreeService mentorTreeService;
 
     @Test
-    public void testDeleteMentorTree() {
+    public void testDeleteMentorTree() throws Exception {
         mentorTreeService.deleteByEmployeeId(1232L);
         verify(mentorTreeRepository).deleteById(1232L);
     }

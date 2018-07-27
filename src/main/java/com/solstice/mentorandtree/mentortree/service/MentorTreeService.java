@@ -1,8 +1,10 @@
 package com.solstice.mentorandtree.mentortree.service;
 
 import com.solstice.mentorandtree.mentortree.domain.MentorTree;
+import com.solstice.mentorandtree.mentortree.exception.NotFoundException;
 import com.solstice.mentorandtree.mentortree.repository.MentorTreeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -58,8 +60,12 @@ public class MentorTreeService {
      * Delete a {@link MentorTree} by employee id.
      * @param id
      */
-    public void deleteByEmployeeId(Long id) {
-        mentorTreeRepository.deleteById(id);
+    public void deleteByEmployeeId(Long id) throws NotFoundException {
+        try {
+            mentorTreeRepository.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new NotFoundException("A mentor tree with the specified employee id does not exist.", e);
+        }
     }
 
 }

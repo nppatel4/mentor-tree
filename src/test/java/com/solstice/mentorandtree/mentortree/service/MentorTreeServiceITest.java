@@ -35,7 +35,7 @@ public class MentorTreeServiceITest {
     @Test
     public void testGetEmployeesByMentorId() {
         ResponseEntity<List<Employee>> employees = testRestTemplate.exchange(
-                ROOT_PATH + "/mentor/2",
+                ROOT_PATH + "/?mentor=2",
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<List<Employee>>() {});

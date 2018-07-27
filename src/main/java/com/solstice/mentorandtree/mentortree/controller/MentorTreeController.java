@@ -2,6 +2,8 @@ package com.solstice.mentorandtree.mentortree.controller;
 
 import com.solstice.mentorandtree.mentortree.client.EmployeeClient;
 import com.solstice.mentorandtree.mentortree.domain.MentorTree;
+import com.solstice.mentorandtree.mentortree.exception.BadRequestException;
+import com.solstice.mentorandtree.mentortree.exception.NotFoundException;
 import com.solstice.mentorandtree.mentortree.model.Employee;
 import com.solstice.mentorandtree.mentortree.service.MentorTreeService;
 import io.swagger.annotations.Api;
@@ -39,22 +41,43 @@ public class MentorTreeController {
         return new ResponseEntity<>(mentorTreeService.save(mentorTree), HttpStatus.CREATED);
     }
 
-    @ApiOperation("get a mentor user")
+    @ApiOperation("get a mentor tree")
     @ApiResponses({
             @ApiResponse(code = 200, message = "mentor tree found"),
             @ApiResponse(code = 404, message = "mentor tree not found")
     })
     @GetMapping("/{id}")
-    public HttpEntity<MentorTree> getMentorTree(@PathVariable("id") Long id) {
+    public HttpEntity<MentorTree> getMentorTree(@PathVariable("id") Long id) throws NotFoundException {
         Optional<MentorTree> mentorTree = mentorTreeService.findByEmployeeId(id);
 
         if (mentorTree.isPresent()) {
             return new ResponseEntity<>(mentorTree.get(), HttpStatus.OK);
         }
 
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        throw new NotFoundException("The mentor tree was not found.");
     }
 
+    @ApiOperation("find mentor trees")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "search successful"),
+            @ApiResponse(code = 400, message = "bad request")
+    })
+    @GetMapping("/")
+    public HttpEntity<List<Employee>> findMentorTrees(
+            @RequestParam(value = "mentor", required = false) Long mentorId,
+            @RequestParam(value = "tree-lead", required = false) Long treeLeadId) throws BadRequestException {
+        List<MentorTree> mentorTrees = new ArrayList<>();
+
+        if (mentorId != null && treeLeadId != null) {
+            throw new BadRequestException("Can only search by mentor id OR tree lead id, not both.");
+        } else if (mentorId != null) {
+            mentorTrees = mentorTreeService.findByMentorId(mentorId);
+        } else if (treeLeadId != null) {
+            mentorTrees = mentorTreeService.findByTreeLeadId(treeLeadId);
+        }
+
+        return new ResponseEntity<>(getEmployeesForMentorTrees(mentorTrees), HttpStatus.OK);
+    }
 
     @ApiOperation("update mentor tree")
     @ApiResponses({
@@ -68,35 +91,13 @@ public class MentorTreeController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @ApiOperation(value = "find employees by mentor Id", response = List.class)
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "search completed successfully")
-    })
-    @GetMapping("/mentor/{id}")
-    public HttpEntity<List<Employee>> findEmployeesByMentorId(@PathVariable("id") Long id) {
-        List<MentorTree> mentorTrees = mentorTreeService.findByMentorId(id);
-
-        return new ResponseEntity<>(getEmployeesForMentorTrees(mentorTrees), HttpStatus.OK);
-    }
-
-    @ApiOperation(value = "find employees by tree lead Id", response = List.class)
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "search completed successfully")
-    })
-    @GetMapping("/tree-lead/{id}")
-    public HttpEntity<List<Employee>> findEmployeesByTreeLeadId(@PathVariable("id") Long id) {
-        List<MentorTree> mentorTrees = mentorTreeService.findByTreeLeadId(id);
-
-        return new ResponseEntity<>(getEmployeesForMentorTrees(mentorTrees), HttpStatus.OK);
-    }
-
     @ApiOperation("delete mentor tree")
     @ApiResponses({
             @ApiResponse(code = 204, message = "delete completed successfully"),
             @ApiResponse(code = 404, message = "mentor tree not found")
     })
     @DeleteMapping("/{id}")
-    public HttpEntity deleteMentorTree(@PathVariable("id") Long id) {
+    public HttpEntity deleteMentorTree(@PathVariable("id") Long id) throws NotFoundException {
         mentorTreeService.deleteByEmployeeId(id);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
