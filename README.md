@@ -7,6 +7,18 @@ This project depends on [employee-tree](https://github.com/nppatel4/employee-tre
 [employee-tree](https://github.com/nppatel4/employee-tree) should be registered with Eureka as *employee-tree*.
 
 ## Run Locally
+### Run Dependencies Using Docker Compose
+This runs Eureka and the employee-tree service:
+```bash
+docker-compose up
+```
+
+Stop and teardown containers:
+```bash
+docker-compose down
+```
+
+### Run From Shell
 The `local` spring profile should be used when running locally. The gradle `bootRun` task has been configured to use the local profile by default.
 ```bash
 ./gradlew bootRun
@@ -47,5 +59,5 @@ git pull
 Build `mentor-tree` jar, run docker-compose, and run the integration tests:
 ```bash
 cd mentor-tree
-./gradlew build
+./gradlew integrationTest
 ```
