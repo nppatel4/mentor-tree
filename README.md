@@ -41,7 +41,7 @@ git pull
 ./gradlew clean assemble
 ```
 
-| :warning: Ensure nothing is running on ports 8080, 8081, and 8761 before starting the build. |
+| :warning: Ensure nothing is running on ports 8080 and 8761 before starting the build. |
 |----------------------------------------------------------------------------------------------|
 
 Build `mentor-tree` jar, run docker-compose, and run the integration tests:

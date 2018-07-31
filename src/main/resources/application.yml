@@ -28,9 +28,6 @@ logging:
   level:
     ROOT: DEBUG
 
-server:
-  port: 8081
-
 eureka:
   client:
     serviceUrl:
