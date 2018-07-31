@@ -19,3 +19,21 @@ eureka:
 
 server:
   port: 8081
+
+---
+spring:
+  profiles: integration
+
+logging:
+  level:
+    ROOT: DEBUG
+
+server:
+  port: 8081
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    hostname: localhost

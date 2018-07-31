@@ -2,7 +2,6 @@ package com.solstice.mentorandtree.mentortree.exception;
 
 import lombok.Data;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Data

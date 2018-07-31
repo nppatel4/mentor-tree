@@ -1,5 +1,6 @@
 package com.solstice.mentorandtree.mentortree.exception;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -12,10 +13,12 @@ import java.time.LocalDateTime;
 
 @ControllerAdvice
 @RestController
+@Slf4j
 public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public final ResponseEntity<ExceptionResponse> handleUncaughtExceptions(Exception e, WebRequest request) {
+        log.debug("Uncaught exception: " + e.getMessage(), e);
         return new ResponseEntity<>(getExceptionResponse(e, request), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
