@@ -16,15 +16,38 @@ plugins {
 }
 
 apply plugin: 'java'
-apply plugin: 'eclipse'
+apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
-
-dockerCompose.isRequiredBy(test)
 
 group = 'com.solstice.mentor-and-tree'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
+
+sourceSets {
+    integrationTest {
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.main.output
+    }
+}
+
+configurations {
+    integrationTestImplementation.extendsFrom implementation
+    integrationTestImplementation.extendsFrom testImplementation
+    integrationTestRuntimeOnly.extendsFrom runtimeOnly
+}
+
+task integrationTest(type: Test) {
+    description = "Runs integration tests."
+    group = 'verification'
+    testClassesDir = sourceSets.integrationTest.output.classesDir
+    classpath += sourceSets.integrationTest.runtimeClasspath
+    shouldRunAfter test
+}
+
+check.dependsOn integrationTest
+
+dockerCompose.isRequiredBy(integrationTest)
 
 repositories {
     mavenCentral()
@@ -78,5 +101,5 @@ dockerCompose {
 }
 
 test.doFirst {
-    dockerCompose.exposeAsEnvironment(test)
+    dockerCompose.exposeAsEnvironment(integrationTest)
 }
